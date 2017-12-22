@@ -1,15 +1,13 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
-import { Angulartics2 } from 'angulartics2';
+import {Angulartics2} from 'angulartics2';
 
 declare var mixpanel: any;
 
 @Injectable()
 export class Angulartics2Mixpanel {
 
-  constructor(
-    private angulartics2: Angulartics2
-  ) {
+  constructor(private angulartics2: Angulartics2) {
     this.angulartics2.pageTrack.subscribe((x: any) => this.pageTrack(x.path, x.location));
 
     this.angulartics2.eventTrack.subscribe((x: any) => this.eventTrack(x.action, x.properties));
@@ -25,11 +23,13 @@ export class Angulartics2Mixpanel {
     this.angulartics2.setSuperPropertiesOnce.subscribe((x: any) => this.setSuperPropertiesOnce(x));
 
     this.angulartics2.setAlias.subscribe((x: string) => this.setAlias(x));
+
+    this.angulartics2.reset.subscribe(() => this.reset());
   }
 
   pageTrack(path: string, location: any) {
     try {
-      mixpanel.track('Page Viewed', { page: path });
+      mixpanel.track('Page Viewed', {page: path});
     } catch (e) {
       if (!(e instanceof ReferenceError)) {
         throw e;
@@ -100,6 +100,16 @@ export class Angulartics2Mixpanel {
   setAlias(alias: any) {
     try {
       mixpanel.alias(alias);
+    } catch (e) {
+      if (!(e instanceof ReferenceError)) {
+        throw e;
+      }
+    }
+  }
+
+  reset() {
+    try {
+      mixpanel.reset();
     } catch (e) {
       if (!(e instanceof ReferenceError)) {
         throw e;

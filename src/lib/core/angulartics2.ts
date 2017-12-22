@@ -21,6 +21,7 @@ export class Angulartics2 {
   setSuperProperties = new ReplaySubject<any>(10);
   setSuperPropertiesOnce = new ReplaySubject<any>(10);
   userTimings = new ReplaySubject<any>(10);
+  reset = new ReplaySubject<any>(10);
 
   constructor(location: Location, router: Router, @Inject(ANGULARTICS2_TOKEN) setup: Angulartics2Token) {
     const defaultConfig = new DefaultConfig;
